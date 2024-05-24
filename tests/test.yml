@@ -1,26 +1,27 @@
 ---
-- hosts: webservers
-  vars:
-    users:
-      - { name: tayeh, groups: "wheel", publickey: "./files/keys/tayeh.pub" }
-      - { name: baraa, groups: "wheel", publickey: "./files/keys/baraa.pub" }
-    php_user: app
-    mariadb_root_password: "secure_root_password"
-    mariadb:
-      - db_name: laravel
-      - db_user: laravel_user
-      - db_pass: "laravel_password"
-    git_repo: https://github.com/laravel/laravel.git
-    git_branch: main
-    project_path: "/var/www/code"
-    git_private_key: "~/.ssh/id_bitbucket"
-    site_url: test.tayeh.me
-    php_fpm_listen: /run/php-fpm/laravel.sock
-    php_memory_limit: "512M"
-    php_post_max_size: "200M"
-    php_upload_max_filesize: "200M"
-    php_max_execution_time: 120
-    php_max_input_time: 180
-    php_timezone: Asia/Riyadh
+- name: Install laravel
+  hosts: webservers
+  become: true
   roles:
-    - laravel_web_stack
+    - role: tayeh.laravel_web_stack
+      vars:
+        users:
+          - { name: tayeh, groups: "wheel, {{ php_user }}", publickey: "./files/tayeh.pub" }
+        php_user: app
+        mariadb_root_password: "secure_root_password"
+        mariadb:
+          - db_name: laravel
+          - db_user: laravel_user
+          - db_pass: "laravel_password"
+        git_repo: git@bitbucket.org:dreamsbrand/whatsappapi.git
+        git_branch: main
+        project_path: "/var/www/code"
+        git_private_key: "~/.ssh/id_bitbucket"
+        site_url: whatsapp.dreams.sa
+        php_fpm_listen: /run/php-fpm/laravel.sock
+        php_memory_limit: "512M"
+        php_post_max_size: "200M"
+        php_upload_max_filesize: "200M"
+        php_max_execution_time: 120
+        php_max_input_time: 180
+        php_timezone: Asia/Riyadh
