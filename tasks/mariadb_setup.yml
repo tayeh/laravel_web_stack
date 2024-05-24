@@ -41,16 +41,16 @@
 
 - name: Create MariaDB database
   community.mysql.mysql_db:
-    name: "{{ mariadb.db_name }}"
+    name: "{{ mariadb[db_name] }}"
     state: present
     login_user: root
     login_password: "{{ mariadb_root_password }}"
 
 - name: Create MariaDB user
   community.mysql.mysql_user:
-    name: "{{ mariadb.db_user }}"
-    password: "{{ (mariadb.db_pass | lookup('ansible.builtin.password', '/root/.mysqlpassword', length=15)) }}"
-    priv: "{{ mariadb.db_name }}.*:ALL"
+    name: "{{ mariadb[db_user] }}"
+    password: "{{ (mariadb[db_pass] | lookup('ansible.builtin.password', '/root/.mysqlpassword', length=15)) }}"
+    priv: "{{ mariadb[db_name] }}.*:ALL"
     state: present
     login_user: root
     login_password: "{{ mariadb_root_password }}"

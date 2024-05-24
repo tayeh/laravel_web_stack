@@ -60,9 +60,9 @@ mariadb_root_password: "secure_root_password"
 
 # List of databases and users to be created
 mariadb:
-  - db_name: laravel
-  - db_user: laravel_user
-  - db_pass: ""
+  db_name: laravel
+  db_user: laravel_user
+  db_pass: ""
 ```
 
 ### Laravel Project
@@ -128,9 +128,9 @@ ansible-galaxy role install tayeh.laravel_web_stack
         php_user: app
         mariadb_root_password: "secure_root_password"
         mariadb:
-          - db_name: laravel
-          - db_user: laravel_user
-          - db_pass: "laravel_password"
+          db_name: laravel
+          db_user: laravel_user
+          db_pass: "laravel_password"
         git_repo: git@github.com:laravel/laravel.git
         git_branch: main
         project_path: "/var/www/code"
