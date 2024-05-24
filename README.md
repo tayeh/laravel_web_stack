@@ -112,7 +112,7 @@ Usage
 
 1. Clone this role into your Ansible roles directory:
 ```bash
-ansible-galaxy install tayeh/laravel_web_stack
+ansible-galaxy role install Tayeh.laravel_web_stack
 ```
 2. Create a playbook that uses this role and specify the necessary variables:
 
