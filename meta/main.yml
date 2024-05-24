@@ -1,5 +1,5 @@
 galaxy_info:
-  namespace: "tayeh"
+  namespace: "Tayeh"
   role_name: "laravel_web_stack"
   author: Mohammed Tayeh <info@tayeh.me>
   description: prepare server with the requerment for Laravel project. PHP, MariaDB, Nginx
