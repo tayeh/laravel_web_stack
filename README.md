@@ -46,9 +46,8 @@ Define the users to be created on the server:
 ```yaml
 # List of users to be created
 users:
-  - { name: tayeh, groups: "wheel" }
-  - { name: baraa, groups: "wheel" }
-  - { name: "{{ php_user }}" }  # User for php-fpm and Laravel files
+  - { name: tayeh, groups: "wheel, {{ php_app }}", publickey: "./files/keys/tayeh.pub" }
+  - { name: baraa, groups: "wheel, {{ php_app }}", publickey: "./files/keys/baraa.pub" }
 
 php_user: app  # Default user for php-fpm and Laravel files
 ```

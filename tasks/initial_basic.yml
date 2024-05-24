@@ -26,17 +26,22 @@
     create: true
     mode: '0644'
 
-- name: Create remote users for ssh access and php applicayion
+- name: Create remote users for ssh access
   ansible.builtin.user:
     name: "{{ item.name }}"
     append: true
     groups: "{{ item.groups }}"
   with_items: "{{ users }}"
 
+- name: Create remote user for php application
+  ansible.builtin.user:
+    name: "{{ php_app }}"
+    append: true
+
 - name: Set authorized keys
   ansible.posix.authorized_key:
     user: "{{ item.name }}"
-    key: "{{ lookup('file', './files/keys/{{ item.name }}.pub') }}"
+    key: "{{ lookup('file', '{{ item.publickey }}') }}"
   with_items: "{{ users }}"
 
 - name: Give wheel group passwordless sudo powers

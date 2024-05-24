@@ -1,9 +1,8 @@
 ---
 # users
 users:
-  - { name: tayeh, groups: "wheel" }
-  - { name: menna, groups: "wheel" }
-  - { name: "{{ php_user }}" } # this user will used for php-fpm and laravel files
+  - { name: tayeh, groups: "wheel, {{ php_app }}", publickey: "./files/keys/tayeh.pub" }
+  - { name: baraa, groups: "wheel, {{ php_app }}", publickey: "./files/keys/baraa.pub" }
 
 php_user: app
 

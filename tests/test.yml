@@ -2,9 +2,8 @@
 - hosts: webservers
   vars:
     users:
-      - { name: tayeh, groups: "wheel" }
-      - { name: baraa, groups: "wheel" }
-      - { name: "{{ php_user }}" }
+      - { name: tayeh, groups: "wheel", publickey: "./files/keys/tayeh.pub" }
+      - { name: baraa, groups: "wheel", publickey: "./files/keys/baraa.pub" }
     php_user: app
     mariadb_root_password: "secure_root_password"
     mariadb:
