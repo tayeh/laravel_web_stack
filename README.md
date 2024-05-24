@@ -131,7 +131,7 @@ ansible-galaxy role install tayeh.laravel_web_stack
           - db_name: laravel
           - db_user: laravel_user
           - db_pass: "laravel_password"
-        git_repo: git@bitbucket.org:dreamsbrand/whatsappapi.git
+        git_repo: git@github.com:laravel/laravel.git
         git_branch: main
         project_path: "/var/www/code"
         git_private_key: "~/.ssh/id_bitbucket"
