@@ -3,6 +3,10 @@
   community.general.dnf_config_manager:
     name: crb
     state: enabled
+- name: Import GPG key for remi repo
+  ansible.builtin.rpm_key:
+    state: present
+    key: https://rpms.remirepo.net/enterprise/9/RPM-GPG-KEY-remi
 
 - name: Enable Remi repository
   ansible.builtin.dnf:
