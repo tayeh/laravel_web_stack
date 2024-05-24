@@ -1,7 +1,7 @@
 [laravel]
 user = {{ php_user }}
 group = {{ php_user }}
-listen = {{ fpm_listen }}
+listen = {{ php_fpm_listen }}
 listen.acl_users = apache,nginx
 listen.allowed_clients = 127.0.0.1
 pm = dynamic

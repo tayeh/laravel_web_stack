@@ -29,7 +29,6 @@
 - name: Create remote user for php application
   ansible.builtin.user:
     name: "{{ php_user }}"
-    append: true
 
 - name: Create remote users for ssh access
   ansible.builtin.user:
