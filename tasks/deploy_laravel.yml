@@ -1,9 +1,15 @@
+- name: Ensure project directory is exist
+  ansible.builtin.file:
+    path: "/home/{{ php_user }}/.ssh"
+    state: directory
+    mode: '0700'
+
 - name: Copy private key to server
   ansible.builtin.copy:
-    src: "{{ lookup('file', './files/keys/{{ git_private_key }}') }}"
-    dest: "/home/{{ app_user }}/.ssh/id_app"
-    owner: "{{ app_user }}"
-    group: "{{ app_user }}"
+    src: "{{ git_private_key }}"
+    dest: "/home/{{ php_user }}/.ssh/id_app"
+    owner: "{{ php_user }}"
+    group: "{{ php_user }}"
     mode: "0600"
 
 - name: Ensure project directory is exist
@@ -18,28 +24,16 @@
     dest: "{{ project_path }}"
     version: "{{ git_branch }}"
     single_branch: true
-
-- name: Install Laravel dependencies
-  ansible.builtin.command:
-    cmd: composer install --no-dev --prefer-dist
-  args:
-    chdir: /var/www/laravel
-  register: composer_output
-  changed_when: composer_output.rc != 0
+    key_file: /home/{{ php_user }}/.ssh/id_app
+    accept_hostkey: true
 
 - name: Copy .env.example to .env
   ansible.builtin.copy:
-    src: /var/www/laravel/.env.example
-    dest: /var/www/laravel/.env
+    src: "{{ project_path }}/.env.example"
+    dest: "{{ project_path }}/.env"
     remote_src: true
     mode: "0644"
-
-- name: Generate application key
-  ansible.builtin.command: php artisan key:generate
-  args:
-    chdir: /var/www/laravel
-  register: key_output
-  changed_when: key_output.rc != 0
+    force: false
 
 - name: Edit .env with the correct value
   ansible.builtin.lineinfile:
@@ -53,8 +47,25 @@
     - { regexp: '^DB_USERNAME', line: 'DB_USERNAME={{ mariadb.db_user }}'}
     - { regexp: '^DB_PASSWORD', line: 'DB_PASSWORD={{ mariadb.db_pass }}'}
 
+- name: Install Laravel dependencies
+  ansible.builtin.command:
+    cmd: composer install
+  args:
+    chdir: "{{ project_path }}"
+  register: composer_output
+  changed_when: composer_output.rc != 0
+
 - name: Running Migrations
   ansible.builtin.command:
     cmd: php artisan migrate
+  args:
+    chdir: "{{ project_path }}"
   register: migrate_output
   changed_when: migrate_output.rc != 0
+
+- name: Generate application key
+  ansible.builtin.command: php artisan key:generate
+  args:
+    chdir: "{{ project_path }}"
+  register: key_output
+  changed_when: key_output.rc != 0

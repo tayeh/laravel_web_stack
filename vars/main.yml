@@ -17,11 +17,12 @@ mariadb:
 # laravel project
 git_repo: git@bitbucket.org:dreamsbrand/whatsappapi.git # ssh or https allowed
 git_branch: main
-project_path: "/var/www/code"
-git_private_key: "~/.ssh/id_bitbucket"
+project_path: "/home/{{ php_user }}/code"
+git_private_key: "./files/keys/id_bitbucket"
 
 # nginx
 site_url: test.tayeh.me
+certbot_mail: <your_mail>
 
 # php-fpm
 php_fpm_listen: /run/php-fpm/laravel.sock

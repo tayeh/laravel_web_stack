@@ -3,7 +3,7 @@ galaxy_info:
   role_name: "laravel_web_stack"
   author: Mohammed Tayeh <info@tayeh.me>
   description: prepare server with the requerment for Laravel project. PHP, MariaDB, Nginx
-
+  version: "0.0.2"
 
   license: GPL-2.0
 

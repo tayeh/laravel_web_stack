@@ -36,6 +36,12 @@
       - composer
     state: present
 
+- name: Ensure php-fpm service is running and enabled
+  ansible.builtin.service:
+    name: php-fpm
+    state: started
+    enabled: true
+
 - name: Remove default php-fpm configuration
   ansible.builtin.file:
     path: /etc/php-fpm.d/www.conf

@@ -18,6 +18,8 @@
       - unzip
       - tmux
       - python3-mysqlclient
+      - certbot
+      - python3-certbot-nginx
     state: present
 
 - name: Increase bash history

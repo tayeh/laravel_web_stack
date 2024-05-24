@@ -2,7 +2,7 @@
 server {
     listen 80;
     server_name {{ site_url }};
-    root {{ project_path }}}/public;
+    root {{ project_path }}/public;
  
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-Content-Type-Options "nosniff";
@@ -21,7 +21,7 @@ server {
     error_page 404 /index.php;
  
     location ~ \.php$ {
-        fastcgi_pass unix:{{ fpm_listen }};
+        fastcgi_pass unix:{{ php_fpm_listen }};
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         include fastcgi_params;
     }

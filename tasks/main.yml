@@ -23,4 +23,9 @@
   ansible.builtin.import_tasks:
     file: deploy_laravel.yml
   become: true
-  become_user: "{{ app_user }}"
+  become_user: "{{ php_user }}"
+
+- name: Install SSL using certbot
+  ansible.builtin.import_tasks:
+    file: install_ssl_certbot.yml
+  become: true

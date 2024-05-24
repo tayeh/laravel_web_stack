@@ -22,6 +22,7 @@ The `laravel_web_stack` Ansible role is designed to automate the setup of a web 
 4. **Nginx Installation and Configuration**:
    - Installs Nginx web server.
    - Configures Nginx to serve the Laravel application.
+   - Configures SSL with certbot.
 
 5. **Laravel Application Deployment**:
    - Installs Composer for dependency management.
@@ -75,10 +76,10 @@ git_repo: https://github.com/laravel/laravel.git  # SSH or HTTPS allowed
 git_branch: main
 
 # Path where the project will be deployed
-project_path: "/var/www/code"
+project_path: "/home/{{ php_user }}/code"
 
 # Path to the private key for accessing the Git repository
-git_private_key: "~/.ssh/id_bitbucket"
+git_private_key: "./files/keys/id_bitbucket"
 ```
 
 ### Nginx
@@ -86,6 +87,7 @@ Define the Nginx site URL:
 ```yaml
 # URL of the site to be configured in Nginx
 site_url: test.tayeh.me
+certbot_mail: <your_mail>
 ```
 
 ### PHP-FPM
@@ -133,9 +135,10 @@ ansible-galaxy role install tayeh.laravel_web_stack
           db_pass: "laravel_password"
         git_repo: git@github.com:laravel/laravel.git
         git_branch: main
-        project_path: "/var/www/code"
-        git_private_key: "~/.ssh/id_bitbucket"
-        site_url: whatsapp.dreams.sa
+        project_path: "/home/{{ php_user }}/code"
+        git_private_key: "./files/keys/id_bitbucket"
+        site_url: test.tayeh.me
+        certbot_mail: <your_mail>
         php_fpm_listen: /run/php-fpm/laravel.sock
         php_memory_limit: "512M"
         php_post_max_size: "200M"
@@ -147,7 +150,7 @@ ansible-galaxy role install tayeh.laravel_web_stack
 
 3. Run the playbook:
 ```bash
-ansible-playbook -i your_inventory_file site.yml
+ansible-playbook -i your_inventory_file main.yml
 ```
 
 License

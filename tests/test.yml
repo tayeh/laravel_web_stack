@@ -15,7 +15,7 @@
           db_pass: "laravel_password"
         git_repo: git@github.com:laravel/laravel.git
         git_branch: main
-        project_path: "/var/www/code"
+        project_path: "/home/{{ php_user }}/code/"
         git_private_key: "~/.ssh/id_bitbucket"
         site_url: whatsapp.dreams.sa
         php_fpm_listen: /run/php-fpm/laravel.sock

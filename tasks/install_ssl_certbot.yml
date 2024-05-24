@@ -1,0 +1,6 @@
+---
+- name: Run certbot with nginx plugin
+  ansible.builtin.command:
+    cmd: certbot --nginx -n -d {{ site_url }} --agree-tos -m {{ certbot_mail }}
+  register: certbot_output
+  changed_when: certbot_output.rc != 0
