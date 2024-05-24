@@ -17,6 +17,7 @@
       - zip
       - unzip
       - tmux
+      - python3-mysqlclient
     state: present
 
 - name: Increase bash history
