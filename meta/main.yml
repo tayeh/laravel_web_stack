@@ -1,0 +1,23 @@
+galaxy_info:
+  namespace: "tayeh"
+  role_name: "laravel_web_stack"
+  author: Mohammed Tayeh <info@tayeh.me>
+  description: prepare server with the requerment for Laravel project. PHP, MariaDB, Nginx
+
+
+  license: GPL-2.0
+
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: EL
+      versions:
+        - all
+
+  galaxy_tags:
+    - php
+    - nginx
+    - mariadb
+    - laravel
+
+dependencies: []

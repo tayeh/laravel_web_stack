@@ -1,0 +1,45 @@
+---
+- name: Ensure the crb repository is enabled
+  community.general.dnf_config_manager:
+    name: crb
+    state: enabled
+
+- name: Enable Remi repository
+  ansible.builtin.dnf:
+    name: https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+    state: present
+
+- name: Enable remi-modular for php
+  ansible.builtin.dnf:
+    name: '@php:remi-8.3'
+    state: present
+
+- name: Install PHP and common extensions
+  ansible.builtin.yum:
+    name:
+      - php
+      - php-cli
+      - php-fpm
+      - php-mysqlnd
+      - php-opcache
+      - php-xml
+      - php-gd
+      - php-mbstring
+      - php-common
+      - php-bcmath
+      - php-tokenizer
+      - php-zip
+      - composer
+    state: present
+
+- name: Remove default php-fpm configuration
+  ansible.builtin.file:
+    path: /etc/php-fpm.d/www.conf
+    state: absent
+
+- name: Create PHP-FPM configuration
+  ansible.builtin.template:
+    src: php-fpm.conf.j2
+    dest: /etc/php-fpm.d/app.conf
+    mode: "0644"
+  notify: Restart PHP-FPM

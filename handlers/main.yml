@@ -1,0 +1,17 @@
+---
+- name: Reload sshd service
+  ansible.builtin.systemd:
+    name: sshd.service
+    state: reloaded
+
+- name: Restart PHP-FPM
+  ansible.builtin.systemd:
+    name: php-fpm
+    state: restarted
+    enabled: true
+
+- name: Restart Nginx
+  ansible.builtin.systemd:
+    name: nginx
+    state: restarted
+    enabled: true

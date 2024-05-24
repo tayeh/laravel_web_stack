@@ -1,0 +1,60 @@
+---
+- name: Upgrade all packages
+  ansible.builtin.dnf:
+    name: "*"
+    update_only: true
+    state: latest
+
+- name: Install initial tools
+  ansible.builtin.dnf:
+    name:
+      - epel-release
+      - bash-completion
+      - vim
+      - curl
+      - wget
+      - git
+      - zip
+      - unzip
+      - tmux
+    state: present
+
+- name: Increase bash history
+  ansible.builtin.lineinfile:
+    path: /etc/profile.d/history.sh
+    line: export HISTSIZE="-1" HISTFILESIZE="-1" HISTTIMEFORMAT="%d/%m/%y %T "
+    create: true
+    mode: '0644'
+
+- name: Create remote users for ssh access and php applicayion
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    append: true
+    groups: "{{ item.groups }}"
+  with_items: "{{ users }}"
+
+- name: Set authorized keys
+  ansible.posix.authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ lookup('file', './files/keys/{{ item.name }}.pub') }}"
+  with_items: "{{ users }}"
+
+- name: Give wheel group passwordless sudo powers
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers.d/wheel-nopass
+    line: "%wheel        ALL=(ALL)       NOPASSWD: ALL"
+    create: true
+    mode: '0440'
+    validate: /usr/sbin/visudo -csf %s
+
+- name: Restrict sshd to key-based-login
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    state: present
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^PermitRootLogin', line: 'PermitRootLogin no'}
+    - { regexp: '^PasswordAuthentication', line: 'PasswordAuthentication no'}
+    - { regexp: '^AuthenticationMethods', line: 'AuthenticationMethods publickey'}
+  notify: Reload sshd service

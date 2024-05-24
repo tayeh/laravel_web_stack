@@ -1,0 +1,26 @@
+---
+- name: Initial basic
+  ansible.builtin.import_tasks:
+    file: initial_basic.yml
+  become: true
+
+- name: Install PHP packages
+  ansible.builtin.import_tasks:
+    file: install_php.yml
+  become: true
+
+- name: Mariadb Setup
+  ansible.builtin.import_tasks:
+    file: mariadb_setup.yml
+  become: true
+
+- name: Install nginx
+  ansible.builtin.import_tasks:
+    file: install_nginx.yml
+  become: true
+
+- name: Deploy laravel
+  ansible.builtin.import_tasks:
+    file: deploy_laravel.yml
+  become: true
+  become_user: "{{ app_user }}"

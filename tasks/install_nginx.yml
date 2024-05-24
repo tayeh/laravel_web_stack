@@ -1,0 +1,16 @@
+- name: Install Nginx
+  ansible.builtin.dnf:
+    name: nginx
+    state: present
+
+- name: Remove default Nginx configuration
+  ansible.builtin.file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+
+- name: Create Nginx configuration for Laravel
+  ansible.builtin.template:
+    src: nginx_laravel.conf.j2
+    dest: /etc/nginx/conf.d/laravel.conf
+    mode: "0644"
+  notify: Restart Nginx

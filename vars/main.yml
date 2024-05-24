@@ -1,0 +1,34 @@
+---
+# users
+users:
+  - { name: tayeh, groups: "wheel" }
+  - { name: menna, groups: "wheel" }
+  - { name: "{{ php_user }}" } # this user will used for php-fpm and laravel files
+
+php_user: app
+
+# mariadb
+mariadb_root_password: "secure_root_password"
+
+mariadb:
+  - db_name: laravel
+  - db_user: laravel_user
+  - db_pass: ""
+
+# laravel project
+git_repo: git@bitbucket.org:dreamsbrand/whatsappapi.git # ssh or https allowed
+git_branch: main
+project_path: "/var/www/code"
+git_private_key: "~/.ssh/id_bitbucket"
+
+# nginx
+site_url: test.tayeh.me
+
+# php-fpm
+php_fpm_listen: /run/php-fpm/laravel.sock
+php_memory_limit: "512M"
+php_post_max_size: "200M"
+php_upload_max_filesize: "200M"
+php_max_execution_time: 120
+php_max_input_time: 180
+php_timezone: Asia/Riyadh

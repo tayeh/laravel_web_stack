@@ -1,0 +1,24 @@
+[laravel]
+user = {{ php_user }}
+group = {{ php_user }}
+listen = {{ fpm_listen }}
+listen.acl_users = apache,nginx
+listen.allowed_clients = 127.0.0.1
+pm = dynamic
+pm.max_children = 50
+pm.start_servers = 5
+pm.min_spare_servers = 5
+pm.max_spare_servers = 35
+slowlog = /var/log/php-fpm/laravel-slow.log
+php_admin_value[error_log] = /var/log/php-fpm/laravel-error.log
+php_admin_flag[log_errors] = on
+php_admin_value[memory_limit] = {{ php_memory_limit }}
+php_admin_value[post_max_size] = {{ php_post_max_size }}
+php_admin_value[upload_max_filesize] = {{ php_upload_max_filesize }}
+php_admin_value[max_execution_time] = {{ php_max_execution_time }}
+php_admin_value[max_input_time] = {{ php_max_input_time }}
+php_admin_value[date.timezone] = {{ php_timezone }}
+php_value[session.save_handler] = files
+php_value[session.save_path]    = /var/lib/php/session
+php_value[soap.wsdl_cache_dir]  = /var/lib/php/wsdlcache
+;php_value[opcache.file_cache]  = /var/lib/php/opcache

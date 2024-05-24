@@ -1,0 +1,56 @@
+---
+- name: Install MariaDB packages
+  ansible.builtin.dnf:
+    name:
+      - mariadb-server
+      - mariadb
+    state: present
+
+- name: Ensure MariaDB service is running and enabled
+  ansible.builtin.service:
+    name: mariadb
+    state: started
+    enabled: true
+
+- name: Set root password for MariaDB
+  community.mysql.mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mariadb_root_password }}"
+    login_unix_socket: /var/lib/mysql/mysql.sock
+    state: present
+  with_items:
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: Remove anonymous MariaDB users
+  community.mysql.mysql_user:
+    name: ''
+    host_all: true
+    state: absent
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+
+- name: Remove MariaDB test database
+  community.mysql.mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+
+- name: Create MariaDB database
+  community.mysql.mysql_db:
+    name: "{{ mariadb.db_name }}"
+    state: present
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+
+- name: Create MariaDB user
+  community.mysql.mysql_user:
+    name: "{{ mariadb.db_user }}"
+    password: "{{ (mariadb.db_pass | lookup('ansible.builtin.password', '/root/.mysqlpassword', length=15)) }}"
+    priv: "{{ mariadb.db_name }}.*:ALL"
+    state: present
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
