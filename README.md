@@ -111,7 +111,7 @@ Usage
 
 1. Clone this role into your Ansible roles directory:
 ```bash
-ansible-galaxy role install Tayeh.laravel_web_stack
+ansible-galaxy role install tayeh.laravel_web_stack
 ```
 2. Create a playbook that uses this role and specify the necessary variables:
 
@@ -121,9 +121,8 @@ ansible-galaxy role install Tayeh.laravel_web_stack
   become: yes
   vars:
     users:
-      - { name: tayeh, groups: "wheel" }
-      - { name: baraa, groups: "wheel" }
-      - { name: "{{ php_user }}" }
+      - { name: tayeh, groups: "wheel, {{ php_app }}", publickey: "./files/keys/tayeh.pub" }
+      - { name: baraa, groups: "wheel, {{ php_app }}", publickey: "./files/keys/baraa.pub" }
     php_user: app
     mariadb_root_password: "secure_root_password"
     mariadb:
@@ -143,7 +142,7 @@ ansible-galaxy role install Tayeh.laravel_web_stack
     php_max_input_time: 180
     php_timezone: Asia/Riyadh
   roles:
-    - laravel_web_stack
+    - tayeh.laravel_web_stack
 ```
 
 3. Run the playbook:

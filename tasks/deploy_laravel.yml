@@ -21,7 +21,7 @@
 
 - name: Install Laravel dependencies
   ansible.builtin.command:
-  cmd: composer install --no-dev --prefer-dist
+    cmd: composer install --no-dev --prefer-dist
   args:
     chdir: /var/www/laravel
   register: composer_output
